@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account | LUTANG</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #080808;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: #151515;
+      border: 1px solid #333;
+      border-radius: 18px;
+      padding: 28px 22px;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 38px;
+      font-weight: 900;
+      background: linear-gradient(90deg, #ff3030, #ffd700, #20c96b);
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 5px;
+    }
+
+    .tagline {
+      text-align: center;
+      color: #aaa;
+      font-size: 12px;
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-size: 13px;
+      color: #ddd;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 9px;
+      border: 1px solid #444;
+      background: #222;
+      color: white;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: linear-gradient(90deg, #e52d27, #f5c518, #159447);
+      color: #080808;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #message {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .login {
+      text-align: center;
+      margin-top: 20px;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .login a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <div class="logo">LUTANG</div>
+    <div class="tagline">SCROLL • CHILL • SHARE</div>
+
+    <h2>Create Account</h2>
+
+    <form id="registerForm">
+      <label for="fullName">Full Name</label>
+      <input id="fullName" type="text" required autocomplete="name">
+
+      <label for="email">Email Address</label>
+      <input id="email" type="email" required autocomplete="email">
+
+      <label for="gender">Gender</label>
+      <select id="gender" required>
+        <option value="">Select gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Prefer not to say">Prefer not to say</option>
+      </select>
+
+      <label for="password">Password</label>
+      <input id="password" type="password" required minlength="8"
+             autocomplete="new-password">
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input id="confirmPassword" type="password" required minlength="8"
+             autocomplete="new-password">
+
+      <button id="registerButton" type="submit">CREATE ACCOUNT</button>
+      <div id="message" role="status" aria-live="polite"></div>
+    </form>
+
+    <div class="login">
+      Already have an account?
+      <a href="login.html">Login here</a>
+    </div>
+  </main>
+
+  <script>
+    // Replace these two placeholders with your own Supabase
+    // Project URL and publishable key.
+    const SUPABASE_URL = "https://zuyaeswuulvwyrpdhuhi.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_OLDcO2J5a8NsY4UwqaIXJQ_eg5vJEkk";
+
+    const db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const form = document.getElementById("registerForm");
+    const button = document.getElementById("registerButton");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const gender = document.getElementById("gender").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+      message.textContent = "";
+      message.style.color = "#ff7777";
+
+      if (password.length < 8) {
+        message.textContent = "Password must be at least 8 characters.";
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        message.textContent = "Passwords do not match.";
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "CREATING ACCOUNT...";
+
+      try {
+        const { data, error } = await db.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: fullName,
+              gender: gender
+            }
+          }
+        });
+
+        if (error) throw error;
+
+        message.style.color = "#55dd88";
+        message.textContent =
+          "Registration submitted! Please check your email and confirm your account before logging in.";
+
+        form.reset();
+
+      } catch (error) {
+        message.style.color = "#ff7777";
+        message.textContent = error.message;
+      } finally {
+        button.disabled = false;
+        button.textContent = "CREATE ACCOUNT";
+      }
+    });
+  </script>
+</body>
+</html>
