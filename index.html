@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>LUTANG — Scroll, Chill, Share</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      padding: 18px;
+      text-align: center;
+      border-bottom: 1px solid #333;
+    }
+
+    .logo {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      background: linear-gradient(
+        90deg, #e52b35, #ffd500, #169447
+      );
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .tagline {
+      font-size: 11px;
+      letter-spacing: 3px;
+      margin-top: 5px;
+    }
+
+    .feed {
+      max-width: 500px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .welcome {
+      margin-top: 25px;
+      padding: 25px 15px;
+      text-align: center;
+      border-radius: 18px;
+      background: linear-gradient(
+        135deg, #e52b35, #111 45%, #169447
+      );
+    }
+
+    .welcome h1 {
+      font-size: 27px;
+      margin-bottom: 10px;
+    }
+
+    .welcome p {
+      font-size: 14px;
+    }
+
+    .video-placeholder {
+      height: 320px;
+      margin-top: 22px;
+      border: 2px dashed #ffd500;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffd500;
+      background: #151515;
+      padding: 20px;
+    }
+
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      background: #111;
+      border-top: 1px solid #333;
+      padding: 14px 5px;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 12px;
+    }
+
+    nav button span {
+      display: block;
+      font-size: 21px;
+      margin-bottom: 4px;
+    }
+
+    .red { color: #e52b35; }
+    .yellow { color: #ffd500; }
+    .green { color: #169447; }
+
+    .feed-space {
+      height: 75px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">LUTANG</div>
+    <div class="tagline">SCROLL • CHILL • SHARE</div>
+  </header>
+
+  <main class="feed">
+    <section class="welcome">
+      <h1>WELCOME TO LUTANG!</h1>
+      <p>Your World of Short Videos.</p>
+      <p>Scroll. Chill. Share. 😎</p>
+    </section>
+
+    <section class="video-placeholder">
+      <div>
+        <div style="font-size:45px;">▶</div>
+        <h3>VIDEO FEED</h3>
+        <p>Short videos will appear here.</p>
+      </div>
+    </section>
+
+    <div class="feed-space"></div>
+  </main>
+
+  <nav>
+    <button><span>⌂</span>Home</button>
+    <button><span>⌕</span>Discover</button>
+    <button><span>＋</span>Create</button>
+    <button><span>♡</span>Activity</button>
+    <button><span>♙</span>Profile</button>
+  </nav>
+
+</body>
+</html>
