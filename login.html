@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | LUTANG</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #080808;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      padding: 28px 22px;
+      background: #151515;
+      border: 1px solid #333;
+      border-radius: 18px;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 38px;
+      font-weight: 900;
+      background: linear-gradient(90deg, #ff3030, #ffd700, #20c96b);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .tagline {
+      text-align: center;
+      color: #aaa;
+      font-size: 12px;
+      margin: 5px 0 25px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      font-size: 13px;
+      color: #ddd;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #444;
+      border-radius: 9px;
+      background: #222;
+      color: white;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: linear-gradient(90deg, #e52d27, #f5c518, #159447);
+      color: #080808;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: 0.6; }
+
+    #message {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .register {
+      margin-top: 20px;
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    a {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <div class="logo">LUTANG</div>
+    <div class="tagline">SCROLL • CHILL • SHARE</div>
+
+    <h2>Welcome Back!</h2>
+
+    <form id="loginForm">
+      <label for="email">Email Address</label>
+      <input
+        id="email"
+        type="email"
+        required
+        autocomplete="email"
+      >
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        required
+        autocomplete="current-password"
+      >
+
+      <button id="loginButton" type="submit">LOGIN</button>
+      <div id="message" role="status" aria-live="polite"></div>
+    </form>
+
+    <div class="register">
+      Don't have an account?
+      <a href="register.html">Create Account</a>
+    </div>
+  </main>
+
+  <script>
+    // Use the SAME Supabase project credentials
+    // as register.html.
+    const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+    const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+    const db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const form = document.getElementById("loginForm");
+    const button = document.getElementById("loginButton");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      button.disabled = true;
+      button.textContent = "LOGGING IN...";
+      message.textContent = "";
+      message.style.color = "#ff7777";
+
+      try {
+        const { data, error } = await db.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (error) throw error;
+
+        message.style.color = "#55dd88";
+        message.textContent = "Login successful! Opening LUTANG...";
+
+        window.location.href = "home.html";
+
+      } catch (error) {
+        message.textContent = error.message;
+        button.disabled = false;
+        button.textContent = "LOGIN";
+      }
+    });
+  </script>
+</body>
+</html>
