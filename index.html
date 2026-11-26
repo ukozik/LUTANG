@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
-  <title>LUTANG — Scroll, Chill, Share</title>
+  <title>LUTANG — Welcome</title>
 
   <style>
     * {
@@ -15,140 +15,125 @@
     }
 
     body {
+      min-height: 100vh;
       background: #000;
       color: white;
       font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
     }
 
-    header {
-      padding: 18px;
+    .container {
+      width: 100%;
+      max-width: 420px;
       text-align: center;
-      border-bottom: 1px solid #333;
     }
 
     .logo {
-      font-size: 36px;
+      font-size: 55px;
       font-weight: 900;
-      letter-spacing: 3px;
+      letter-spacing: 5px;
       background: linear-gradient(
         90deg, #e52b35, #ffd500, #169447
       );
       -webkit-background-clip: text;
       color: transparent;
+      margin-bottom: 8px;
     }
 
     .tagline {
-      font-size: 11px;
-      letter-spacing: 3px;
-      margin-top: 5px;
-    }
-
-    .feed {
-      max-width: 500px;
-      margin: auto;
-      padding: 18px;
+      font-size: 12px;
+      letter-spacing: 4px;
+      margin-bottom: 45px;
     }
 
     .welcome {
-      margin-top: 25px;
-      padding: 25px 15px;
-      text-align: center;
-      border-radius: 18px;
-      background: linear-gradient(
-        135deg, #e52b35, #111 45%, #169447
-      );
+      border: 1px solid #333;
+      border-radius: 22px;
+      padding: 35px 22px;
+      background:
+        radial-gradient(circle at top left, #e52b3530, transparent 45%),
+        radial-gradient(circle at bottom right, #16944730, transparent 45%),
+        #111;
     }
 
     .welcome h1 {
       font-size: 27px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .welcome p {
+      color: #bbb;
       font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 28px;
     }
 
-    .video-placeholder {
-      height: 320px;
-      margin-top: 22px;
-      border: 2px dashed #ffd500;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #ffd500;
-      background: #151515;
-      padding: 20px;
-    }
-
-    nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
-      background: #111;
-      border-top: 1px solid #333;
-      padding: 14px 5px;
-    }
-
-    nav button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 12px;
-    }
-
-    nav button span {
+    .btn {
       display: block;
-      font-size: 21px;
-      margin-bottom: 4px;
+      width: 100%;
+      padding: 15px;
+      margin-top: 14px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
     }
 
-    .red { color: #e52b35; }
-    .yellow { color: #ffd500; }
-    .green { color: #169447; }
+    .login {
+      background: linear-gradient(90deg, #e52b35, #ffd500);
+      color: #000;
+      border: none;
+    }
 
-    .feed-space {
-      height: 75px;
+    .register {
+      background: transparent;
+      color: white;
+      border: 2px solid #169447;
+    }
+
+    .footer {
+      color: #666;
+      font-size: 11px;
+      margin-top: 30px;
+      letter-spacing: 2px;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
+  <main class="container">
+
     <div class="logo">LUTANG</div>
     <div class="tagline">SCROLL • CHILL • SHARE</div>
-  </header>
 
-  <main class="feed">
     <section class="welcome">
       <h1>WELCOME TO LUTANG!</h1>
-      <p>Your World of Short Videos.</p>
-      <p>Scroll. Chill. Share. 😎</p>
+
+      <p>
+        Your World of Short Videos.<br>
+        Discover, Create and Share.
+      </p>
+
+      <a href="login.html" class="btn login">
+        LOGIN
+      </a>
+
+      <a href="register.html" class="btn register">
+        CREATE ACCOUNT
+      </a>
     </section>
 
-    <section class="video-placeholder">
-      <div>
-        <div style="font-size:45px;">▶</div>
-        <h3>VIDEO FEED</h3>
-        <p>Short videos will appear here.</p>
-      </div>
-    </section>
+    <div class="footer">
+      YOUR WORLD. YOUR VIDEOS. YOUR LUTANG.
+    </div>
 
-    <div class="feed-space"></div>
   </main>
-
-  <nav>
-    <button><span>⌂</span>Home</button>
-    <button><span>⌕</span>Discover</button>
-    <button><span>＋</span>Create</button>
-    <button><span>♡</span>Activity</button>
-    <button><span>♙</span>Profile</button>
-  </nav>
 
 </body>
 </html>
