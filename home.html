@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
-  <title>LUTANG — Scroll, Chill, Share</title>
+  <title>LUTANG</title>
 
   <style>
     * {
@@ -20,19 +20,152 @@
       font-family: Arial, sans-serif;
     }
 
-    header {
-      padding: 18px;
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* HOME VIDEO FEED */
+    #home {
+      height: 100dvh;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: none;
+    }
+
+    #home::-webkit-scrollbar {
+      display: none;
+    }
+
+    .video-card {
+      height: 100dvh;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      scroll-snap-align: start;
+      background:
+        radial-gradient(circle at 50% 35%, #333 0%, #151515 35%, #000 85%);
+    }
+
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      color: #ffd500;
+      font-size: 14px;
+    }
+
+    .play-symbol {
+      font-size: 55px;
+      margin-bottom: 12px;
+    }
+
+    .video-info {
+      position: absolute;
+      left: 15px;
+      bottom: 85px;
+      right: 85px;
+      z-index: 2;
+    }
+
+    .creator {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e52b35, #ffd500, #169447);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: black;
+    }
+
+    .username {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .follow {
+      border: 1px solid #fff;
+      border-radius: 5px;
+      background: transparent;
+      color: white;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .caption {
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .audio {
+      font-size: 12px;
+      color: #ddd;
+    }
+
+    .actions {
+      position: absolute;
+      right: 12px;
+      bottom: 95px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 19px;
+      z-index: 3;
+    }
+
+    .action {
+      border: none;
+      background: transparent;
+      color: white;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    .action small {
+      display: block;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .action.selected {
+      color: #e52b35;
+    }
+
+    /* MORE PAGE */
+    #more {
+      min-height: 100dvh;
+      padding: 25px 18px 100px;
+      background: #080808;
+    }
+
+    .more-header {
+      text-align: center;
+      padding: 20px 0 30px;
       border-bottom: 1px solid #333;
+      margin-bottom: 20px;
     }
 
     .logo {
-      font-size: 36px;
+      font-size: 38px;
       font-weight: 900;
       letter-spacing: 3px;
-      background: linear-gradient(
-        90deg, #e52b35, #ffd500, #169447
-      );
+      background: linear-gradient(90deg, #e52b35, #ffd500, #169447);
       -webkit-background-clip: text;
       color: transparent;
     }
@@ -43,112 +176,297 @@
       margin-top: 5px;
     }
 
-    .feed {
-      max-width: 500px;
-      margin: auto;
-      padding: 18px;
-    }
-
-    .welcome {
-      margin-top: 25px;
-      padding: 25px 15px;
-      text-align: center;
-      border-radius: 18px;
-      background: linear-gradient(
-        135deg, #e52b35, #111 45%, #169447
-      );
-    }
-
-    .welcome h1 {
-      font-size: 27px;
+    .menu-item {
+      width: 100%;
+      display: block;
+      padding: 17px;
       margin-bottom: 10px;
+      border: 1px solid #292929;
+      border-radius: 10px;
+      background: #151515;
+      color: white;
+      text-align: left;
+      font-size: 15px;
     }
 
-    .welcome p {
+    /* OTHER TABS */
+    .simple-page {
+      min-height: 100dvh;
+      padding: 30px 20px 100px;
+      text-align: center;
+      background: #080808;
+    }
+
+    .simple-page h2 {
+      margin: 20px 0;
+    }
+
+    .simple-page p {
+      color: #aaa;
       font-size: 14px;
     }
 
-    .video-placeholder {
-      height: 320px;
-      margin-top: 22px;
-      border: 2px dashed #ffd500;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #ffd500;
-      background: #151515;
-      padding: 20px;
-    }
-
+    /* BOTTOM NAVIGATION */
     nav {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
+      height: 65px;
       display: flex;
       justify-content: space-around;
-      background: #111;
+      align-items: center;
+      background: rgba(15, 15, 15, 0.97);
       border-top: 1px solid #333;
-      padding: 14px 5px;
+      z-index: 10;
     }
 
     nav button {
-      background: none;
+      flex: 1;
+      height: 100%;
       border: none;
-      color: white;
-      font-size: 12px;
+      background: transparent;
+      color: #aaa;
+      font-size: 11px;
+      cursor: pointer;
     }
 
     nav button span {
       display: block;
-      font-size: 21px;
-      margin-bottom: 4px;
+      font-size: 23px;
+      margin-bottom: 3px;
     }
 
-    .red { color: #e52b35; }
-    .yellow { color: #ffd500; }
-    .green { color: #169447; }
-
-    .feed-space {
-      height: 75px;
+    nav button.active {
+      color: #ffd500;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">LUTANG</div>
-    <div class="tagline">SCROLL • CHILL • SHARE</div>
-  </header>
+  <!-- HOME -->
+  <main id="home" class="page active">
 
-  <main class="feed">
-    <section class="welcome">
-      <h1>WELCOME TO LUTANG!</h1>
-      <p>Your World of Short Videos.</p>
-      <p>Scroll. Chill. Share. 😎</p>
-    </section>
+    <section class="video-card">
+      <div class="video-placeholder">
+        <div>
+          <div class="play-symbol">▶</div>
+          <h3>VIDEO FEED</h3>
+          <p>Videos will appear here.</p>
+        </div>
+      </div>
 
-    <section class="video-placeholder">
-      <div>
-        <div style="font-size:45px;">▶</div>
-        <h3>VIDEO FEED</h3>
-        <p>Short videos will appear here.</p>
+      <div class="video-info">
+        <div class="creator">
+          <div class="avatar">L</div>
+          <div class="username">@lutang_creator</div>
+          <button class="follow" onclick="toggleFollow(this)">Follow</button>
+        </div>
+
+        <p class="caption">
+          Welcome to LUTANG! 😎
+          <br>Scroll. Chill. Share.
+        </p>
+
+        <div class="audio">♫ Original Audio</div>
+      </div>
+
+      <div class="actions">
+        <button class="action" onclick="toggleLike(this)">
+          ♡<small>0</small>
+        </button>
+
+        <button class="action" onclick="showComments()">
+          ◯<small>0</small>
+        </button>
+
+        <button class="action" onclick="shareVideo()">
+          ↗<small>Share</small>
+        </button>
+
+        <button class="action" onclick="toggleSave(this)">
+          ♧<small>Save</small>
+        </button>
       </div>
     </section>
 
-    <div class="feed-space"></div>
+    <section class="video-card">
+      <div class="video-placeholder">
+        <div>
+          <div class="play-symbol">▶</div>
+          <h3>NEXT VIDEO</h3>
+          <p>Swipe up for more.</p>
+        </div>
+      </div>
+
+      <div class="video-info">
+        <div class="creator">
+          <div class="avatar">L</div>
+          <div class="username">@new_creator</div>
+          <button class="follow" onclick="toggleFollow(this)">Follow</button>
+        </div>
+
+        <p class="caption">Your next favorite video could be here! 🔥</p>
+        <div class="audio">♫ Original Audio</div>
+      </div>
+
+      <div class="actions">
+        <button class="action" onclick="toggleLike(this)">
+          ♡<small>0</small>
+        </button>
+        <button class="action" onclick="showComments()">
+          ◯<small>0</small>
+        </button>
+        <button class="action" onclick="shareVideo()">
+          ↗<small>Share</small>
+        </button>
+        <button class="action" onclick="toggleSave(this)">
+          ♧<small>Save</small>
+        </button>
+      </div>
+    </section>
+
   </main>
 
+  <!-- DISCOVER -->
+  <main id="discover" class="page simple-page">
+    <h2>Discover</h2>
+    <p>Explore videos and creators.</p>
+  </main>
+
+  <!-- CREATE -->
+  <main id="create" class="page simple-page">
+    <h2>Create</h2>
+    <p>Your video creation tools will appear here.</p>
+  </main>
+
+  <!-- ACTIVITY -->
+  <main id="activity" class="page simple-page">
+    <h2>Activity</h2>
+    <p>Your notifications and updates will appear here.</p>
+  </main>
+
+  <!-- MORE -->
+  <main id="more" class="page">
+    <header class="more-header">
+      <div class="logo">LUTANG</div>
+      <div class="tagline">SCROLL • CHILL • SHARE</div>
+    </header>
+
+    <button class="menu-item">👤 My Profile</button>
+    <button class="menu-item">⚙️ Settings</button>
+    <button class="menu-item">🔔 Notifications</button>
+    <button class="menu-item">💬 Messages</button>
+    <button class="menu-item">🎵 My Favorites</button>
+    <button class="menu-item">📊 Creator Studio</button>
+    <button class="menu-item">🛡️ Help & Support</button>
+    <button class="menu-item" onclick="logout()">🚪 Logout</button>
+  </main>
+
+  <!-- NAVIGATION -->
   <nav>
-    <button><span>⌂</span>Home</button>
-    <button><span>⌕</span>Discover</button>
-    <button><span>＋</span>Create</button>
-    <button><span>♡</span>Activity</button>
-    <button><span>♙</span>More</button>
+    <button class="active" onclick="showTab('home', this)">
+      <span>⌂</span>Home
+    </button>
+
+    <button onclick="showTab('discover', this)">
+      <span>⌕</span>Discover
+    </button>
+
+    <button onclick="showTab('create', this)">
+      <span>＋</span>Create
+    </button>
+
+    <button onclick="showTab('activity', this)">
+      <span>♡</span>Activity
+    </button>
+
+    <button onclick="showTab('more', this)">
+      <span>♙</span>More
+    </button>
   </nav>
+
+  <script>
+    function showTab(tabId, button) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
+
+      document.getElementById(tabId).classList.add("active");
+
+      document.querySelectorAll("nav button").forEach(navButton => {
+        navButton.classList.remove("active");
+      });
+
+      button.classList.add("active");
+    }
+
+    function toggleLike(button) {
+      button.classList.toggle("selected");
+
+      const count = button.querySelector("small");
+      const current = Number(count.textContent);
+
+      count.textContent = button.classList.contains("selected")
+        ? current + 1
+        : Math.max(0, current - 1);
+    }
+
+    function toggleFollow(button) {
+      button.textContent =
+        button.textContent === "Follow" ? "Following" : "Follow";
+    }
+
+    function toggleSave(button) {
+      button.classList.toggle("selected");
+      button.querySelector("small").textContent =
+        button.classList.contains("selected") ? "Saved" : "Save";
+    }
+
+    function showComments() {
+      alert("Comments feature is coming soon!");
+    }
+
+    async function shareVideo() {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "LUTANG",
+            text: "Check out LUTANG!"
+          });
+        } catch (error) {
+          // Sharing was cancelled.
+        }
+      } else {
+        alert("Sharing is not supported on this browser yet.");
+      }
+    }
+
+    async function logout() {
+      if (!confirm("Are you sure you want to logout?")) return;
+
+      const { error } = await db.auth.signOut();
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://zuyaeswuulvwyrpdhuhi.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_OLDcO2J5a8NsY4UwqaIXJQ_eg5vJEkk";
+
+    const db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+  </script>
 
 </body>
 </html>
