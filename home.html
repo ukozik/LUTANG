@@ -488,6 +488,63 @@
       SUPABASE_URL,
       SUPABASE_PUBLISHABLE_KEY
     );
+    document.getElementById("uploadForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const file = document.getElementById("videoFile").files[0];
+  const caption = document.getElementById("videoCaption").value.trim();
+  const status = document.getElementById("uploadStatus");
+  const button = document.getElementById("uploadBtn");
+
+  if (!file) {
+    status.textContent = "Pumili muna ng video.";
+    return;
+  }
+
+  if (file.size > 50 * 1024 * 1024) {
+    status.textContent = "Maximum video size ay 50 MB.";
+    return;
+  }
+
+  button.disabled = true;
+  status.textContent = "Uploading video...";
+
+  try {
+    const { data: userData, error: userError } = await db.auth.getUser();
+
+    if (userError || !userData.user) {
+      throw new Error("Mag-login muna bago mag-upload.");
+    }
+
+    const user = userData.user;
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const filePath = `${user.id}/${Date.now()}-${safeName}`;
+
+    const { error: uploadError } = await db.storage
+      .from("lutang-videos")
+      .upload(filePath, file, { upsert: false });
+
+    if (uploadError) throw uploadError;
+
+    const { error: insertError } = await db
+      .from("videos")
+      .insert({
+        user_id: user.id,
+        video_path: filePath,
+        caption: caption
+      });
+
+    if (insertError) throw insertError;
+
+    status.textContent = "Video uploaded successfully!";
+    document.getElementById("uploadForm").reset();
+
+  } catch (error) {
+    status.textContent = "Upload failed: " + error.message;
+  } finally {
+    button.disabled = false;
+  }
+});
   </script>
 
 </body>
