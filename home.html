@@ -562,29 +562,33 @@ async function loadDiscoverFeed(searchText = "") {
     return;
   }
 
-  filteredVideos.forEach(video => {
-    const { data } = db.storage
-      .from("lutang-videos")
-      .getPublicUrl(video.video_path);
+  for (const video of filteredVideos) {
+  const { data, error: urlError } = await db.storage
+    .from("lutang-videos")
+    .createSignedUrl(video.video_path, 3600);
 
-    const card = document.createElement("section");
-    card.className = "video-card";
+  if (urlError) {
+    console.error("Video URL error:", urlError);
+    continue;
+  }
 
-    const player = document.createElement("video");
-    player.src = data.publicUrl;
-    player.controls = true;
-    player.playsInline = true;
-    player.preload = "metadata";
-    player.style.width = "100%";
+  const card = document.createElement("section");
+  card.className = "video-card";
 
-    const title = document.createElement("p");
-    title.className = "caption";
-    title.textContent = video.caption || "Untitled video";
+  const player = document.createElement("video");
+  player.src = data.signedUrl;
+  player.controls = true;
+  player.playsInline = true;
+  player.preload = "metadata";
+  player.style.width = "100%";
 
-    card.appendChild(player);
-    card.appendChild(title);
-    feed.appendChild(card);
-  });
+  const title = document.createElement("p");
+  title.className = "caption";
+  title.textContent = video.caption || "Untitled video";
+
+  card.appendChild(player);
+  card.appendChild(title);
+  feed.appendChild(card);
 }
 
 const discoverSearch = document.getElementById("discoverSearch");
