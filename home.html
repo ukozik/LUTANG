@@ -520,7 +520,7 @@ if (urlError) {
     card.className = "video-card";
 
     const player = document.createElement("video");
-    player.src = data.publicUrl;
+    player.src = data.signedUrl;
     player.controls = true;
     player.playsInline = true;
     player.preload = "metadata";
