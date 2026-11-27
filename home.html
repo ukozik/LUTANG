@@ -502,6 +502,55 @@
     button.disabled = false;
   }
 });
+    async function loadVideoFeed() {
+  const feed = document.getElementById("videoFeed");
+  if (!feed) return;
+
+  feed.innerHTML = "<p>Loading videos...</p>";
+
+  const { data: videos, error } = await db
+    .from("videos")
+    .select("id, user_id, video_path, caption, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    feed.innerHTML = "<p>Hindi ma-load ang videos: " + error.message + "</p>";
+    return;
+  }
+
+  if (!videos || videos.length === 0) {
+    feed.innerHTML = "<p>Wala pang uploaded videos.</p>";
+    return;
+  }
+
+  feed.innerHTML = "";
+
+  videos.forEach((video) => {
+    const { data } = db.storage
+      .from("lutang-videos")
+      .getPublicUrl(video.video_path);
+
+    const card = document.createElement("section");
+    card.className = "video-card";
+
+    const player = document.createElement("video");
+    player.src = data.publicUrl;
+    player.controls = true;
+    player.playsInline = true;
+    player.preload = "metadata";
+    player.style.width = "100%";
+
+    const caption = document.createElement("p");
+    caption.className = "caption";
+    caption.textContent = video.caption || "";
+
+    card.appendChild(player);
+    card.appendChild(caption);
+    feed.appendChild(card);
+  });
+}
+
+loadVideoFeed();
   </script>
 
 </body>
