@@ -494,6 +494,7 @@
     if (insertError) throw insertError;
 
     status.textContent = "Video uploaded successfully!";
+    await loadVideoFeed();
     document.getElementById("uploadForm").reset();
 
   } catch (error) {
