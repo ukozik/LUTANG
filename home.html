@@ -506,7 +506,7 @@
 
   feed.innerHTML = "";
 
-  videos.forEach((video) => {
+for (const video of videos) {
     const { data } = db.storage
       .from("lutang-videos")
       .getPublicUrl(video.video_path);
