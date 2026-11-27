@@ -530,7 +530,67 @@
     feed.appendChild(card);
   });
 }
+async function loadDiscoverFeed(searchText = "") {
+  const feed = document.getElementById("discoverFeed");
+  if (!feed) return;
 
+  const { data: videos, error } = await db
+    .from("videos")
+    .select("id, video_path, caption, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    feed.textContent = "Hindi ma-load ang videos.";
+    return;
+  }
+
+  const keyword = searchText.trim().toLowerCase();
+
+  const filteredVideos = (videos || []).filter(video =>
+    (video.caption || "").toLowerCase().includes(keyword)
+  );
+
+  feed.innerHTML = "";
+
+  if (filteredVideos.length === 0) {
+    feed.textContent = "Walang nahanap na video.";
+    return;
+  }
+
+  filteredVideos.forEach(video => {
+    const { data } = db.storage
+      .from("lutang-videos")
+      .getPublicUrl(video.video_path);
+
+    const card = document.createElement("section");
+    card.className = "video-card";
+
+    const player = document.createElement("video");
+    player.src = data.publicUrl;
+    player.controls = true;
+    player.playsInline = true;
+    player.preload = "metadata";
+    player.style.width = "100%";
+
+    const title = document.createElement("p");
+    title.className = "caption";
+    title.textContent = video.caption || "Untitled video";
+
+    card.appendChild(player);
+    card.appendChild(title);
+    feed.appendChild(card);
+  });
+}
+
+const discoverSearch = document.getElementById("discoverSearch");
+
+if (discoverSearch) {
+  discoverSearch.addEventListener("input", function() {
+    loadDiscoverFeed(this.value);
+  });
+}
+
+loadDiscoverFeed();
 loadVideoFeed();
   </script>
 
