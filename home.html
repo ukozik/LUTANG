@@ -527,7 +527,7 @@
     if (uploadError) throw uploadError;
 
     const { error: insertError } = await db
-      .from("video")
+      .from("videos")
       .insert({
         user_id: user.id,
         video_path: filePath,
