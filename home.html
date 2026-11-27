@@ -507,9 +507,14 @@
   feed.innerHTML = "";
 
 for (const video of videos) {
-    const { data } = db.storage
-      .from("lutang-videos")
-      .getPublicUrl(video.video_path);
+    const { data, error: urlError } = await db.storage
+  .from("lutang-videos")
+  .createSignedUrl(video.video_path, 3600);
+
+if (urlError) {
+  console.error("Video URL error:", urlError);
+  continue;
+}
 
     const card = document.createElement("section");
     card.className = "video-card";
