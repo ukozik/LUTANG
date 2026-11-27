@@ -245,37 +245,12 @@
 
 <body>
 
-  <!-- HOME -->
-  <main id="home" class="page active">
-
-    <section class="video-card">
-      <div class="video-placeholder">
-        <div>
-          <div class="play-symbol">▶</div>
-          <h3>VIDEO FEED</h3>
-          <p>Videos will appear here.</p>
-        </div>
-      </div>
-
-      <div class="video-info">
-        <div class="creator">
-          <div class="avatar">L</div>
-          <div class="username">@lutang_creator</div>
-          <button class="follow" onclick="toggleFollow(this)">Follow</button>
-        </div>
-
-        <div class="audio">♫ Original Audio</div>
-      </div>
-
-      <div class="actions">
-        <button class="action" onclick="toggleLike(this)">
-          ♡<small>0</small>
-        </button>
-
-        <button class="action" onclick="showComments()"> 
-        </button>
-        
-      </div>
+<!-- HOME -->
+<main id="home" class="page active">
+  <div id="videoFeed">
+    <p>Loading videos...</p>
+  </div>
+</main>
           
   <!-- DISCOVER -->
   <main id="discover" class="page simple-page">
