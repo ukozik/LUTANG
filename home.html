@@ -336,10 +336,32 @@
   </main>
 
   <!-- CREATE -->
-  <main id="create" class="page simple-page">
-    <h2>Create</h2>
-    <p>Your video creation tools will appear here.</p>
-  </main>
+<main id="create" class="page simple-page">
+  <h2>Create Video</h2>
+
+  <form id="uploadForm">
+    <label for="videoFile">Pumili ng video</label>
+    <input
+      type="file"
+      id="videoFile"
+      accept="video/mp4,video/webm,video/quicktime"
+      required
+    >
+
+    <label for="videoCaption">Caption</label>
+    <textarea
+      id="videoCaption"
+      placeholder="Write a caption..."
+      rows="3"
+    ></textarea>
+
+    <button type="submit" id="uploadBtn">
+      Upload Video
+    </button>
+
+    <p id="uploadStatus"></p>
+  </form>
+</main>
 
   <!-- ACTIVITY -->
   <main id="activity" class="page simple-page">
