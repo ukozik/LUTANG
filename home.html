@@ -547,6 +547,7 @@ document.getElementById("galleryButton").addEventListener("click", () => {
   preview.controls = true;
   preview.muted = false;
   preview.play();
+  preview.style.objectFit = "contain";
 
   form.style.display = "block";
 });
