@@ -482,6 +482,41 @@ nav {
 
       button.classList.add("active");
     }
+    let cameraStream = null;
+let currentCamera = "environment";
+
+async function startCamera() {
+  const preview = document.getElementById("cameraPreview");
+
+  try {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(track => track.stop());
+    }
+
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: currentCamera
+      },
+      audio: false
+    });
+
+    preview.srcObject = cameraStream;
+    await preview.play();
+
+  } catch (error) {
+    alert("Hindi ma-access ang camera. Paki-check ang camera permission.");
+    console.error(error);
+  }
+}
+
+function stopCamera() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(track => track.stop());
+    cameraStream = null;
+  }
+
+  document.getElementById("cameraPreview").srcObject = null;
+}
 
     function toggleLike(button) {
       button.classList.toggle("selected");
