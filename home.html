@@ -522,7 +522,9 @@ function stopCamera() {
 
   document.getElementById("cameraPreview").srcObject = null;
 }
-
+document.getElementById("galleryButton").addEventListener("click", () => {
+  document.getElementById("videoFile").click();
+});
     function toggleLike(button) {
       button.classList.toggle("selected");
 
