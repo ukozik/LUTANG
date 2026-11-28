@@ -796,6 +796,76 @@ saveButton.onclick = () => toggleFavorite(video.id, saveButton);
     feed.appendChild(card);
   }
   }
+    async function loadFavorites() {
+  const container = document.getElementById("favoriteVideos");
+  if (!container) return;
+
+  const favorites = JSON.parse(
+    localStorage.getItem("lutangFavorites") || "[]"
+  );
+
+  if (favorites.length === 0) {
+    container.innerHTML = "<p>Wala ka pang saved videos.</p>";
+    return;
+  }
+
+  container.innerHTML = "<p>Loading favorites...</p>";
+
+  const { data: videos, error } = await db
+    .from("videos")
+    .select("id, video_path, caption")
+    .in("id", favorites);
+
+  if (error) {
+    container.textContent = "Hindi ma-load ang favorites.";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  for (const video of videos || []) {
+    const { data, error: urlError } = await db.storage
+      .from("lutang-videos")
+      .createSignedUrl(video.video_path, 3600);
+
+    if (urlError) continue;
+
+    const card = document.createElement("section");
+    card.className = "video-card";
+
+    const player = document.createElement("video");
+    player.src = data.signedUrl;
+    player.controls = true;
+    player.playsInline = true;
+    player.style.width = "100%";
+
+    const caption = document.createElement("p");
+    caption.textContent = video.caption || "";
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "♥ Saved";
+
+    removeButton.onclick = () => {
+      let saved = JSON.parse(
+        localStorage.getItem("lutangFavorites") || "[]"
+      );
+
+      saved = saved.filter(id => id !== video.id);
+      localStorage.setItem("lutangFavorites", JSON.stringify(saved));
+
+      card.remove();
+
+      if (container.children.length === 0) {
+        container.innerHTML = "<p>Wala ka pang saved videos.</p>";
+      }
+    };
+
+    card.appendChild(player);
+    card.appendChild(caption);
+    card.appendChild(removeButton);
+    container.appendChild(card);
+  }
+}
 async function loadDiscoverFeed(searchText = "") {
   const feed = document.getElementById("discoverFeed");
   if (!feed) return;
