@@ -372,21 +372,41 @@ nav {
     <p>Loading videos...</p>
   </div>
 </main>
-  
   <!-- CREATE -->
-<main id="create" class="page simple-page">
-  <h2>Create Video</h2>
+<main id="create" class="page">
 
+  <!-- Full screen camera -->
+  <video id="cameraPreview" autoplay playsinline muted></video>
+
+  <!-- Close -->
+  <button id="closeCamera" type="button">✕</button>
+
+  <!-- Right side tools -->
+  <div class="camera-tools">
+    <button id="switchCamera" type="button">🔄</button>
+    <button id="timerButton" type="button">⏱</button>
+  </div>
+
+  <!-- Gallery -->
+  <button id="galleryButton" type="button">
+    🖼️
+    <span>Add</span>
+  </button>
+
+  <input
+    type="file"
+    id="videoFile"
+    accept="video/mp4,video/webm,video/quicktime"
+    hidden
+  >
+
+  <!-- Record -->
+  <button id="recordButton" type="button">
+    <span></span>
+  </button>
+
+  <!-- Existing upload controls -->
   <form id="uploadForm">
-    <label for="videoFile">Pumili ng video</label>
-    <input
-      type="file"
-      id="videoFile"
-      accept="video/mp4,video/webm,video/quicktime"
-      required
-    >
-
-    <label for="videoCaption">Caption</label>
     <textarea
       id="videoCaption"
       placeholder="Write a caption..."
@@ -399,6 +419,7 @@ nav {
 
     <p id="uploadStatus"></p>
   </form>
+
 </main>
 
   <!-- ACTIVITY -->
