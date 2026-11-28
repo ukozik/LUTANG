@@ -561,6 +561,23 @@ document.getElementById("galleryButton").addEventListener("click", () => {
 
   form.style.display = "block";
 });
+    document.getElementById("closeCamera").addEventListener("click", () => {
+  const createPage = document.getElementById("create");
+  const preview = document.getElementById("cameraPreview");
+  const form = document.getElementById("uploadForm");
+
+  createPage.classList.remove("has-selected-video");
+  form.style.display = "none";
+
+  preview.pause();
+  preview.removeAttribute("src");
+  preview.load();
+  preview.controls = false;
+  preview.style.objectFit = "cover";
+
+  document.getElementById("videoFile").value = "";
+  startCamera();
+});
     function toggleLike(button) {
       button.classList.toggle("selected");
 
