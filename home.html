@@ -615,6 +615,21 @@ document.getElementById("galleryButton").addEventListener("click", () => {
       button.querySelector("small").textContent =
         button.classList.contains("selected") ? "Saved" : "Save";
     }
+    function toggleFavorite(videoId, button) {
+  let favorites = JSON.parse(
+    localStorage.getItem("lutangFavorites") || "[]"
+  );
+
+  if (favorites.includes(videoId)) {
+    favorites = favorites.filter(id => id !== videoId);
+    button.textContent = "♡ Save";
+  } else {
+    favorites.push(videoId);
+    button.textContent = "♥ Saved";
+  }
+
+  localStorage.setItem("lutangFavorites", JSON.stringify(favorites));
+}
 
     function showComments() {
       alert("Comments feature is coming soon!");
