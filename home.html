@@ -790,9 +790,9 @@ saveButton.textContent = favorites.includes(video.id)
 
 saveButton.onclick = () => toggleFavorite(video.id, saveButton);
 
-card.appendChild(saveButton);
     card.appendChild(player);
     card.appendChild(caption);
+    card.appendChild(saveButton);
     feed.appendChild(card);
   }
   }
