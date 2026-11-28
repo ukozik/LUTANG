@@ -778,6 +778,19 @@ if (urlError) {
     caption.className = "caption";
     caption.textContent = video.caption || "";
 
+const saveButton = document.createElement("button");
+
+const favorites = JSON.parse(
+  localStorage.getItem("lutangFavorites") || "[]"
+);
+
+saveButton.textContent = favorites.includes(video.id)
+  ? "♥ Saved"
+  : "♡ Save";
+
+saveButton.onclick = () => toggleFavorite(video.id, saveButton);
+
+card.appendChild(saveButton);
     card.appendChild(player);
     card.appendChild(caption);
     feed.appendChild(card);
