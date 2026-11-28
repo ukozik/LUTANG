@@ -533,6 +533,23 @@ function stopCamera() {
 document.getElementById("galleryButton").addEventListener("click", () => {
   document.getElementById("videoFile").click();
 });
+    document.getElementById("videoFile").addEventListener("change", function() {
+  const file = this.files[0];
+
+  if (!file) return;
+
+  const preview = document.getElementById("cameraPreview");
+  const form = document.getElementById("uploadForm");
+
+  stopCamera();
+
+  preview.src = URL.createObjectURL(file);
+  preview.controls = true;
+  preview.muted = false;
+  preview.play();
+
+  form.style.display = "block";
+});
     function toggleLike(button) {
       button.classList.toggle("selected");
 
