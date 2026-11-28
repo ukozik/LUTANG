@@ -481,6 +481,11 @@ nav {
       });
 
       button.classList.add("active");
+      if (tabId === "create") {
+  startCamera();
+} else {
+  stopCamera();
+}
     }
     let cameraStream = null;
 let currentCamera = "environment";
