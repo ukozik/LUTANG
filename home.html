@@ -513,12 +513,19 @@ nav {
         navButton.classList.remove("active");
       });
 
-      button.classList.add("active");
-      if (tabId === "create") {
+     if (button) {
+  button.classList.add("active");
+}
+
+if (tabId === "create") {
   startCamera();
 } else {
   stopCamera();
 }
+
+if (tabId === "favorites") {
+  loadFavorites();
+} 
     }
     let cameraStream = null;
 let currentCamera = "environment";
