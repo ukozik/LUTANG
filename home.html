@@ -533,8 +533,8 @@ if (urlError) {
     card.appendChild(player);
     card.appendChild(caption);
     feed.appendChild(card);
-  });
-}
+  }
+  }
 async function loadDiscoverFeed(searchText = "") {
   const feed = document.getElementById("discoverFeed");
   if (!feed) return;
@@ -589,7 +589,8 @@ async function loadDiscoverFeed(searchText = "") {
   card.appendChild(player);
   card.appendChild(title);
  }
-} // Closing ng loadDiscoverFeed()
+ }
+    // Closing ng loadDiscoverFeed()
 
 const discoverSearch = document.getElementById("discoverSearch");
 
